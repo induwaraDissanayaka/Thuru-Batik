@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile - Batik Lanka</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <section class="section" style="padding-top:2rem">
+    <h1 class="section-title" data-i18n="profile.title">My Profile</h1>
+
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:2rem;align-items:start">
+      <!-- Profile Sidebar -->
+      <div class="glass-card" style="padding:1.5rem;text-align:center">
+        <div style="width:100px;height:100px;border-radius:50%;background:var(--gold-gradient);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2.5rem;color:white;font-weight:700">
+          JD
+        </div>
+        <h3 style="margin-bottom:0.3rem">John Doe</h3>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1rem">john@example.com</p>
+        <div style="display:flex;flex-direction:column;gap:0.5rem">
+          <a href="profile.html" class="btn btn-primary btn-sm" style="justify-content:start"><i class="fas fa-user"></i> Profile</a>
+          <a href="orders.html" class="btn btn-secondary btn-sm" style="justify-content:start"><i class="fas fa-box"></i> My Orders</a>
+          <a href="wishlist.html" class="btn btn-secondary btn-sm" style="justify-content:start"><i class="fas fa-heart"></i> Wishlist</a>
+          <button class="btn btn-secondary btn-sm" style="justify-content:start;color:var(--danger)" onclick="Firebase.logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </div>
+
+      <!-- Profile Content -->
+      <div>
+        <div class="glass-card" style="padding:1.5rem;margin-bottom:1.5rem">
+          <h3 style="margin-bottom:1.5rem"><i class="fas fa-user-edit"></i> <span data-i18n="profile.edit_profile">Edit Profile</span></h3>
+          <form onsubmit="updateProfile(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-i18n="auth.full_name">Full Name</label>
+                <input type="text" class="form-input" value="John Doe">
+              </div>
+              <div class="form-group">
+                <label class="form-label" data-i18n="auth.email">Email</label>
+                <input type="email" class="form-input" value="john@example.com" readonly style="background:var(--bg-secondary)">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" data-i18n="auth.phone">Phone</label>
+                <input type="tel" class="form-input" value="+94 77 123 4567">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" class="form-input">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" data-i18n="profile.save_changes">Save Changes</button>
+          </form>
+        </div>
+
+        <div class="glass-card" style="padding:1.5rem">
+          <h3 style="margin-bottom:1.5rem"><i class="fas fa-lock"></i> <span data-i18n="profile.change_password">Change Password</span></h3>
+          <form onsubmit="changePassword(event)">
+            <div class="form-group">
+              <label class="form-label" data-i18n="profile.current_password">Current Password</label>
+              <input type="password" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="profile.new_password">New Password</label>
+              <input type="password" class="form-input" required minlength="6">
+            </div>
+            <button type="submit" class="btn btn-primary">Update Password</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-container"></div>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById('navbar-container').innerHTML = renderNavbar();
+    document.getElementById('footer-container').innerHTML = renderFooter();
+
+    function updateProfile(e) {
+      e.preventDefault();
+      Toast.success('Profile updated successfully!');
+    }
+
+    function changePassword(e) {
+      e.preventDefault();
+      Toast.success('Password updated successfully!');
+    }
+  </script>
+</body>
+</html>

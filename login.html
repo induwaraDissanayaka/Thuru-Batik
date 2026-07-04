@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Batik Lanka</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="auth-container">
+    <div class="glass-card auth-card">
+      <div class="auth-header">
+        <div class="logo-icon" style="width:60px;height:60px;font-size:1.8rem;margin:0 auto 1rem">BL</div>
+        <h2 data-i18n="auth.login_title">Welcome Back</h2>
+        <p>Sign in to your Batik Lanka account</p>
+      </div>
+
+      <button class="google-btn" onclick="handleGoogleLogin()">
+        <img src="https://www.google.com/favicon.ico" style="width:20px;height:20px" alt="Google">
+        <span data-i18n="auth.google_login">Continue with Google</span>
+      </button>
+
+      <div class="divider"><span data-i18n="auth.or_login_with">Or login with email</span></div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.email">Email Address</label>
+          <input type="email" class="form-input" id="loginEmail" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.password">Password</label>
+          <input type="password" class="form-input" id="loginPassword" required placeholder="••••••••">
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+          <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.9rem;color:var(--text-muted)">
+            <input type="checkbox"> Remember me
+          </label>
+          <a href="forgot-password.html" style="color:var(--primary);font-size:0.9rem;text-decoration:none" data-i18n="auth.forgot_password">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%" data-i18n="nav.login">Login</button>
+      </form>
+
+      <p style="text-align:center;margin-top:1.5rem;color:var(--text-muted)">
+        <span data-i18n="auth.no_account">Don't have an account?</span>
+        <a href="register.html" style="color:var(--primary);font-weight:600;text-decoration:none" data-i18n="auth.register_now">Register Now</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById('navbar-container').innerHTML = renderNavbar();
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        await Firebase.login(email, password);
+        Toast.success('Login successful!');
+        window.location.href = 'index.html';
+      } catch (error) {
+        Toast.error(error.message);
+      }
+    }
+
+    async function handleGoogleLogin() {
+      try {
+        await Firebase.googleLogin();
+        Toast.success('Login successful!');
+        window.location.href = 'index.html';
+      } catch (error) {
+        Toast.error(error.message);
+      }
+    }
+  </script>
+</body>
+</html>

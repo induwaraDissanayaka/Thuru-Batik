@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Batik Lanka</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <div class="auth-container">
+    <div class="glass-card auth-card">
+      <div class="auth-header">
+        <div class="logo-icon" style="width:60px;height:60px;font-size:1.8rem;margin:0 auto 1rem">BL</div>
+        <h2 data-i18n="auth.register_title">Create Account</h2>
+        <p>Join the Batik Lanka family</p>
+      </div>
+
+      <button class="google-btn" onclick="handleGoogleRegister()">
+        <img src="https://www.google.com/favicon.ico" style="width:20px;height:20px" alt="Google">
+        <span data-i18n="auth.google_login">Continue with Google</span>
+      </button>
+
+      <div class="divider"><span>Or register with email</span></div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.full_name">Full Name</label>
+          <input type="text" class="form-input" id="regName" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.email">Email Address</label>
+          <input type="email" class="form-input" id="regEmail" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.phone">Phone Number</label>
+          <input type="tel" class="form-input" id="regPhone" placeholder="+94 77 123 4567">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.password">Password</label>
+          <input type="password" class="form-input" id="regPassword" required placeholder="Min 6 characters" minlength="6">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="auth.confirm_password">Confirm Password</label>
+          <input type="password" class="form-input" id="regConfirmPassword" required placeholder="••••••••">
+        </div>
+        <div style="margin-bottom:1.5rem">
+          <label style="display:flex;align-items:start;gap:0.5rem;cursor:pointer;font-size:0.85rem;color:var(--text-muted)">
+            <input type="checkbox" required style="margin-top:0.2rem">
+            I agree to the <a href="#" style="color:var(--primary)">Terms & Conditions</a> and <a href="#" style="color:var(--primary)">Privacy Policy</a>
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%" data-i18n="nav.register">Register</button>
+      </form>
+
+      <p style="text-align:center;margin-top:1.5rem;color:var(--text-muted)">
+        <span data-i18n="auth.have_account">Already have an account?</span>
+        <a href="login.html" style="color:var(--primary);font-weight:600;text-decoration:none" data-i18n="auth.login_now">Login Now</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById('navbar-container').innerHTML = renderNavbar();
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+      if (password !== confirmPassword) {
+        Toast.error('Passwords do not match');
+        return;
+      }
+
+      try {
+        await Firebase.register(email, password, name);
+        Toast.success('Registration successful!');
+        window.location.href = 'index.html';
+      } catch (error) {
+        Toast.error(error.message);
+      }
+    }
+
+    async function handleGoogleRegister() {
+      try {
+        await Firebase.googleLogin();
+        Toast.success('Registration successful!');
+        window.location.href = 'index.html';
+      } catch (error) {
+        Toast.error(error.message);
+      }
+    }
+  </script>
+</body>
+</html>

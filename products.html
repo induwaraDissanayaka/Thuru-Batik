@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop authentic Sri Lankan Batik clothing and accessories at Batik Lanka.">
+  <title>Products - Batik Lanka</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="navbar-container"></div>
+
+  <section class="section" style="padding-top:2rem">
+    <div class="section-header">
+      <h1 class="section-title" data-i18n="products.title">Our Products</h1>
+      <p class="section-subtitle">Discover our exquisite batik collection</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:2rem">
+      <!-- Filters Sidebar -->
+      <aside class="glass-card" style="padding:1.5rem;height:fit-content;position:sticky;top:90px">
+        <h3 style="margin-bottom:1rem"><i class="fas fa-filter"></i> <span data-i18n="products.filter">Filter</span></h3>
+
+        <div style="margin-bottom:1.5rem">
+          <h4 style="margin-bottom:0.5rem;font-size:0.9rem" data-i18n="products.category">Category</h4>
+          <div id="categoryFilters" style="display:flex;flex-direction:column;gap:0.3rem">
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.3rem;border-radius:8px;transition:var(--transition)" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">
+              <input type="checkbox" value="Sarees" onchange="applyFilters()"> Sarees
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.3rem;border-radius:8px;transition:var(--transition)" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">
+              <input type="checkbox" value="Shirts" onchange="applyFilters()"> Shirts
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.3rem;border-radius:8px;transition:var(--transition)" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">
+              <input type="checkbox" value="Dresses" onchange="applyFilters()"> Dresses
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.3rem;border-radius:8px;transition:var(--transition)" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">
+              <input type="checkbox" value="Home Decor" onchange="applyFilters()"> Home Decor
+            </label>
+            <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;padding:0.3rem;border-radius:8px;transition:var(--transition)" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background='none'">
+              <input type="checkbox" value="Accessories" onchange="applyFilters()"> Accessories
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.5rem">
+          <h4 style="margin-bottom:0.5rem;font-size:0.9rem" data-i18n="products.price_range">Price Range</h4>
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <input type="number" class="form-input" placeholder="Min" style="padding:0.5rem;font-size:0.85rem" id="minPrice" onchange="applyFilters()">
+            <span>-</span>
+            <input type="number" class="form-input" placeholder="Max" style="padding:0.5rem;font-size:0.85rem" id="maxPrice" onchange="applyFilters()">
+          </div>
+        </div>
+
+        <div style="margin-bottom:1.5rem">
+          <h4 style="margin-bottom:0.5rem;font-size:0.9rem" data-i18n="products.size">Size</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem" id="sizeFilters">
+            <button class="btn btn-sm" style="padding:0.3rem 0.8rem;font-size:0.8rem;border:1px solid var(--border-color);background:var(--bg-card)" onclick="toggleSizeFilter(this, 'S')">S</button>
+            <button class="btn btn-sm" style="padding:0.3rem 0.8rem;font-size:0.8rem;border:1px solid var(--border-color);background:var(--bg-card)" onclick="toggleSizeFilter(this, 'M')">M</button>
+            <button class="btn btn-sm" style="padding:0.3rem 0.8rem;font-size:0.8rem;border:1px solid var(--border-color);background:var(--bg-card)" onclick="toggleSizeFilter(this, 'L')">L</button>
+            <button class="btn btn-sm" style="padding:0.3rem 0.8rem;font-size:0.8rem;border:1px solid var(--border-color);background:var(--bg-card)" onclick="toggleSizeFilter(this, 'XL')">XL</button>
+          </div>
+        </div>
+
+        <button class="btn btn-outline btn-sm" style="width:100%" onclick="resetFilters()" data-i18n="products.reset">Reset Filters</button>
+      </aside>
+
+      <!-- Products Grid -->
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+          <p style="color:var(--text-muted)"><span id="productCount">6</span> products found</p>
+          <select class="form-input" style="width:auto;padding:0.5rem 1rem;font-size:0.9rem" onchange="sortProducts(this.value)">
+            <option value="newest" data-i18n="products.newest">Newest First</option>
+            <option value="price-low" data-i18n="products.price_low">Price: Low to High</option>
+            <option value="price-high" data-i18n="products.price_high">Price: High to Low</option>
+          </select>
+        </div>
+
+        <div class="products-grid" id="productsGrid">
+          <!-- Products rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div id="footer-container"></div>
+
+  <script src="js/main.js"></script>
+  <script>
+    document.getElementById('navbar-container').innerHTML = renderNavbar();
+    document.getElementById('footer-container').innerHTML = renderFooter();
+
+    let currentProducts = [...mockProducts];
+    let activeSizeFilters = [];
+
+    function renderProducts(products) {
+      const grid = document.getElementById('productsGrid');
+      document.getElementById('productCount').textContent = products.length;
+
+      if (products.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:4rem">
+            <i class="fas fa-search" style="font-size:3rem;color:var(--text-muted);margin-bottom:1rem"></i>
+            <h3>No products found</h3>
+            <p style="color:var(--text-muted)">Try adjusting your filters</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = products.map(p => UI.renderProductCard(p)).join('');
+      initScrollAnimations();
+    }
+
+    function applyFilters() {
+      const checkedCategories = Array.from(document.querySelectorAll('#categoryFilters input:checked')).map(cb => cb.value);
+      const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+
+      currentProducts = mockProducts.filter(p => {
+        const categoryMatch = checkedCategories.length === 0 || checkedCategories.includes(p.category);
+        const priceMatch = p.price >= minPrice && p.price <= maxPrice;
+        const sizeMatch = activeSizeFilters.length === 0 || (p.sizes && p.sizes.some(s => activeSizeFilters.includes(s)));
+        return categoryMatch && priceMatch && sizeMatch;
+      });
+
+      renderProducts(currentProducts);
+    }
+
+    function toggleSizeFilter(btn, size) {
+      btn.classList.toggle('active');
+      if (activeSizeFilters.includes(size)) {
+        activeSizeFilters = activeSizeFilters.filter(s => s !== size);
+        btn.style.background = 'var(--bg-card)';
+        btn.style.color = 'var(--text-primary)';
+      } else {
+        activeSizeFilters.push(size);
+        btn.style.background = 'var(--primary)';
+        btn.style.color = 'white';
+      }
+      applyFilters();
+    }
+
+    function sortProducts(sortBy) {
+      let sorted = [...currentProducts];
+      switch(sortBy) {
+        case 'price-low':
+          sorted.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-high':
+          sorted.sort((a, b) => b.price - a.price);
+          break;
+        case 'newest':
+        default:
+          sorted.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+      }
+      renderProducts(sorted);
+    }
+
+    function resetFilters() {
+      document.querySelectorAll('#categoryFilters input').forEach(cb => cb.checked = false);
+      document.getElementById('minPrice').value = '';
+      document.getElementById('maxPrice').value = '';
+      activeSizeFilters = [];
+      document.querySelectorAll('#sizeFilters button').forEach(btn => {
+        btn.style.background = 'var(--bg-card)';
+        btn.style.color = 'var(--text-primary)';
+      });
+      currentProducts = [...mockProducts];
+      renderProducts(currentProducts);
+    }
+
+    // Check URL params for category filter
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category');
+    if (categoryParam) {
+      const checkbox = document.querySelector(`#categoryFilters input[value="${categoryParam}"]`);
+      if (checkbox) {
+        checkbox.checked = true;
+        applyFilters();
+      }
+    } else {
+      renderProducts(mockProducts);
+    }
+  </script>
+</body>
+</html>
